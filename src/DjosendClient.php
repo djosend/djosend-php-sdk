@@ -105,6 +105,7 @@ final class DjosendClient
      */
     public function scheduleMessage(array $input, string $idempotencyKey): array
     {
+        $this->validateInputKeys($input, ['to', 'body', 'scheduledAt', 'timezone', 'senderNameId', 'metadata']);
         $this->validateRecipientAndBody($input);
         foreach (['scheduledAt', 'timezone'] as $field) {
             if (!isset($input[$field]) || !is_string($input[$field]) || trim($input[$field]) === '') {
@@ -232,6 +233,7 @@ final class DjosendClient
     /** @param array<string, mixed> $input */
     private function validateMessage(array $input): void
     {
+        $this->validateInputKeys($input, ['channel', 'to', 'body', 'senderNameId', 'metadata']);
         $this->validateRecipientAndBody($input);
         if (!isset($input['channel']) || !in_array($input['channel'], self::CHANNELS, true)) {
             throw new ValidationException('A valid channel is required.');
@@ -252,8 +254,20 @@ final class DjosendClient
         if (strlen($input['to']) < 6 || strlen($input['to']) > 25) {
             throw new ValidationException('Message recipient must contain 6 to 25 characters.');
         }
-        if (isset($input['metadata']) && !is_array($input['metadata'])) {
-            throw new ValidationException('metadata must be an object.');
+        if (isset($input['metadata']) && (!is_array($input['metadata']) || array_is_list($input['metadata']))) {
+            throw new ValidationException('metadata must be an associative object; omit it when empty.');
+        }
+    }
+
+    /** @param array<string, mixed> $input
+     *  @param list<string> $allowed
+     */
+    private function validateInputKeys(array $input, array $allowed): void
+    {
+        foreach (array_keys($input) as $key) {
+            if (!in_array($key, $allowed, true)) {
+                throw new ValidationException('Unsupported message field: ' . (string) $key);
+            }
         }
     }
 
