@@ -8,7 +8,7 @@ Client PHP pour l'API Messages Djosend (`/api/v1/messages`). PHP 8.2 ou plus ré
 composer require djosend/php-sdk
 ```
 
-Le package devra être publié sur Packagist avant que cette commande soit disponible. Pour un projet local, ajouter un dépôt Composer de type `path` ou `vcs`.
+Le package est distribué sur Packagist depuis le dépôt public [djosend/djosend-php-sdk](https://github.com/djosend/djosend-php-sdk).
 
 ## Envoyer et suivre un message
 

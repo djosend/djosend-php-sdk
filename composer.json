@@ -3,6 +3,12 @@
   "description": "PHP client for the Djosend Messages API",
   "type": "library",
   "license": "MIT",
+  "homepage": "https://github.com/djosend/djosend-php-sdk",
+  "keywords": ["djosend", "sms", "messaging", "sdk"],
+  "support": {
+    "issues": "https://github.com/djosend/djosend-php-sdk/issues",
+    "source": "https://github.com/djosend/djosend-php-sdk"
+  },
   "require": {
     "php": "^8.2",
     "guzzlehttp/guzzle": "^7.9 || ^8.2"
